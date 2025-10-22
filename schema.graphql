@@ -1,0 +1,84 @@
+# ============================
+# GraphQL Schema for Coding Profile Service
+# ============================
+
+# Root Query
+type Query {
+  # Fetch HackerRank profile
+  hackerRank(username: String!): HackerRankProfile
+
+  # Fetch CodeChef profile
+  codeChef(username: String!): CodeChefProfile
+
+  # Fetch LeetCode profile
+  leetCode(username: String!): LeetCodeProfile
+
+  # Fetch GeeksforGeeks profile
+  gfg(username: String!): GFGProfile
+}
+
+# ----------------------------
+# HackerRank Profile
+# ----------------------------
+type HackerRankProfile {
+  username: String!
+  platform: String!
+  codingScore: Int
+  totalSolved: Int
+  badges: [String]           # List of badge titles
+  certifications: Int        # Number of certificates
+  certificationLinks: [String] # Direct URLs to certificates
+}
+
+# ----------------------------
+# CodeChef Profile
+# ----------------------------
+type CodeChefProfile {
+  username: String!
+  platform: String!
+  rating: Int
+  maxRating: Int
+  globalRank: Int
+  countryRank: Int
+  contestsParticipated: Int
+  totalSolved: Int
+}
+
+# ----------------------------
+# LeetCode Profile
+# ----------------------------
+type LeetCodeProfile {
+  username: String!
+  platform: String!
+  totalSolved: Int
+  easySolved: Int
+  mediumSolved: Int
+  hardSolved: Int
+  acceptanceRate: Float
+  contestRating: Int
+  badges: [String]
+}
+
+# ----------------------------
+# GeeksforGeeks Profile
+# ----------------------------
+type GFGProfile {
+  username: String!
+  platform: String!
+  totalSolved: Int
+  certifications: Int
+  badges: [String]
+}
+
+# ----------------------------
+# Example Usage
+# ----------------------------
+# query {
+#   hackerRank(username: "johnDoe") {
+#     codingScore
+#     totalSolved
+#     badges
+#     certifications
+#     certificationLinks
+#   }
+# }

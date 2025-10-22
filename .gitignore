@@ -1,0 +1,46 @@
+# ========================
+# Go build / binary files
+# ========================
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.out
+*.test
+
+# ========================
+# Go module cache / vendor
+# ========================
+vendor/
+
+# ========================
+# IDE / Editor files
+# ========================
+# VSCode
+.vscode/
+# JetBrains / GoLand
+.idea/
+# Vim / Emacs swap files
+*.swp
+*~
+
+# ========================
+# OS generated files
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Logs / Temporary files
+# ========================
+*.log
+tmp/
+data/
+cache/
+
+# ========================
+# Optional
+# If you generate JSON / profile caches locally
+# ========================
+*.json
