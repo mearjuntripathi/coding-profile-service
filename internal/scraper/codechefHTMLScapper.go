@@ -29,20 +29,30 @@ func FetchCodeChefHTML(username string) (model.StatsResponse, error) {
 
     stats := model.StatsResponse{Platform: "codechef", Username: username}
 
-    // Rating
-    stats.Rating, _ = strconv.Atoi(doc.Find(".rating-header .rating-number").Text())
+    // Rating — from #rating-block-all
+    ratingBlock := doc.Find("#rating-block-all")
 
-    // Max Rating
-    doc.Find(".rating-header small").Each(func(i int, s *goquery.Selection) {
+    // Rating number
+    ratingText := strings.TrimSpace(ratingBlock.Find(".rating-number").Text())
+    stats.Rating, _ = strconv.Atoi(ratingText)
+
+    // Stars — count ★ symbols
+    starText := ratingBlock.Find(".rating-star").Text()
+    stats.Stars = strings.Count(starText, "★")
+
+    // Max Rating — from <small>(Highest Rating 1734)</small>
+    ratingBlock.Find("small").Each(func(i int, s *goquery.Selection) {
         txt := s.Text()
-        re := regexp.MustCompile(`\d+`)
-        if match := re.FindString(txt); match != "" {
-            stats.MaxRating, _ = strconv.Atoi(match)
+        if strings.Contains(txt, "Highest Rating") {
+            re := regexp.MustCompile(`\d+`)
+            if match := re.FindString(txt); match != "" {
+                stats.MaxRating, _ = strconv.Atoi(match)
+            }
         }
     })
 
     // Global and Country Rank
-    ranks := doc.Find(".rating-ranks li strong")
+    ranks := ratingBlock.Find(".rating-ranks li strong")
     if ranks.Length() >= 2 {
         stats.GlobalRank, _ = strconv.Atoi(strings.TrimSpace(ranks.Eq(0).Text()))
         stats.CountryRank, _ = strconv.Atoi(strings.TrimSpace(ranks.Eq(1).Text()))
@@ -50,14 +60,17 @@ func FetchCodeChefHTML(username string) (model.StatsResponse, error) {
 
     // Contests Participated
     doc.Find(".contest-participated-count b").Each(func(i int, s *goquery.Selection) {
-        stats.ContestsParticipated, _ = strconv.Atoi(s.Text())
+        stats.ContestsParticipated, _ = strconv.Atoi(strings.TrimSpace(s.Text()))
     })
 
     // Total Problems Solved
     doc.Find(".rating-data-section.problems-solved h3").Each(func(i int, s *goquery.Selection) {
         re := regexp.MustCompile(`\d+`)
         if match := re.FindString(s.Text()); match != "" {
-            stats.TotalSolved, _ = strconv.Atoi(match)
+            n, _ := strconv.Atoi(match)
+            if n > stats.TotalSolved {
+                stats.TotalSolved = n // take highest number found
+            }
         }
     })
 

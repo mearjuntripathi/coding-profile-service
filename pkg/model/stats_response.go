@@ -18,6 +18,7 @@ type StatsResponse struct {
     Certifications       int            `json:"certifications,omitempty"`
     CertificationLinks   []string       `json:"certificationLinks,omitempty"`
     CodingScore          int            `json:"codingScore,omitempty"`
-    Cached               bool           `json:"cached,omitempty"`  // ← add this
+    Cached               bool           `json:"cached,omitempty"`
     Error                string         `json:"error,omitempty"`
+    Stars                int            `json:"stars,omitempty"`
 }

@@ -16,12 +16,13 @@ import (
 
 
 // TTLs per platform — stats don't change that often
+// stats_handler.go
 var platformTTL = map[string]time.Duration{
-	"leetcode":   30 * time.Minute,
-	"gfg":        30 * time.Minute,
-	"codechef":   2 * time.Hour,
-	"hackerrank": 6 * time.Hour,
-	"codeforces": 1 * time.Hour,
+    "leetcode":   30 * time.Minute,
+    "gfg":        2 * time.Hour,
+    "codechef":   2 * time.Hour,
+    "hackerrank": 6 * time.Hour,
+    "codeforces": 1 * time.Hour,
 }
 
 func StatsHandler(w http.ResponseWriter, r *http.Request) {
